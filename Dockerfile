@@ -1,6 +1,7 @@
 # =============================================================================
 # InfiniteTalk ComfyUI - RunPod Template
 # Audio-driven Talking Head Video Generation with Wan2.1 + InfiniteTalk
+# Includes: ComfyUI + VS Code (code-server)
 # =============================================================================
 
 FROM runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04
@@ -17,6 +18,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgl1-mesa-glx \
     libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
+
+# =============================================================================
+# Install code-server (VS Code Web)
+# =============================================================================
+RUN curl -fsSL https://code-server.dev/install.sh | sh
 
 # =============================================================================
 # Install ComfyUI
@@ -103,6 +109,7 @@ WORKDIR /ComfyUI
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-EXPOSE 8188
+# Expose ports: ComfyUI (8188) + VS Code (8080)
+EXPOSE 8188 8080
 
 CMD ["/start.sh"]

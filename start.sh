@@ -1,6 +1,7 @@
 #!/bin/bash
 # =============================================================================
 # InfiniteTalk ComfyUI Startup Script
+# Services: ComfyUI (8188) + VS Code (8080)
 # =============================================================================
 
 echo "=========================================="
@@ -26,9 +27,16 @@ echo "  - Text Encoder:     $(ls -lh /ComfyUI/models/text_encoders/umt5-xxl-enc-
 echo "  - CLIP Vision:      $(ls -lh /ComfyUI/models/clip_vision/clip_vision_h.safetensors 2>/dev/null | awk '{print $5}' || echo 'Missing')"
 echo ""
 
+# Start VS Code (code-server) in background
+echo "💻 Starting VS Code on port 8080..."
+code-server --bind-addr 0.0.0.0:8080 --auth none /ComfyUI &
+
 echo "🚀 Starting ComfyUI on port 8188..."
-echo "   Access via: https://[POD_ID]-8188.proxy.runpod.net"
+echo ""
+echo "   📍 Access URLs:"
+echo "   ComfyUI: https://[POD_ID]-8188.proxy.runpod.net"
+echo "   VS Code: https://[POD_ID]-8080.proxy.runpod.net"
 echo ""
 
-# Start ComfyUI
+# Start ComfyUI (foreground)
 python main.py --listen 0.0.0.0 --port 8188 --enable-cors-header
