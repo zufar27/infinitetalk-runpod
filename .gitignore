@@ -1,0 +1,16 @@
+# Ignore large model files if accidentally downloaded locally
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+
+# Docker
+.docker/
+
+# Temp
+*.log
+*.tmp
+__pycache__/
+.DS_Store
